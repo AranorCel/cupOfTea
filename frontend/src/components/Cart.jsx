@@ -66,7 +66,7 @@ const Cart = () => {
             cart: tmpCart,
             paymentMethod: "CB",
             shippingPrice: 3.99,
-            totalPrice: parseFloat(cart.map(product => product[9].value).reduce((a, b) => a + b)).toFixed(2),
+            totalPrice: cart.map(product => product[9].value).reduce((a, b) => a + b),
             shoppingPlace: "website",
             shippingAddress: client.address,
             isValidated: true,

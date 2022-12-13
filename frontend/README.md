@@ -2,10 +2,7 @@
 ### Installation : 
 
 1. Git clone [repo](https://github.com/AranorCel/cupOfTea.git).
-2. npm install.
-
-#### _Si l'étape 2 ne fonctionne pas_ :
-- Se diriger sur les dossiers frontend et backend et npm install à nouveau. 
+2. npm install dans les dossiers backend puis dans le dossier frontend
 
 ### Technologies utilisées : 
 - Frontend React (Cra, Redux Toolkit, Yup...).
