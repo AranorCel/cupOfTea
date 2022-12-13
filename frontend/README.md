@@ -3,6 +3,7 @@
 
 1. Git clone [repo](https://github.com/AranorCel/cupOfTea.git).
 2. npm install dans les dossiers backend puis dans le dossier frontend
+3. Lien [Excalidraw](https://excalidraw.com/#room=d7046de7e136d2fe4da2,b0JAODiD5dVvTyPZHxW-2Q).
 
 ### Technologies utilisées : 
 - Frontend React (Cra, Redux Toolkit, Yup...).
