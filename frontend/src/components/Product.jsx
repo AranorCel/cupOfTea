@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import axios from "axios"
 import {useDispatch, useSelector} from "react-redux"
 import ProductRating from "./Rating"
 import ButtonProduct from './ButtonProduct';
+
 
 const Product = () => {
     const { id } = useParams();
@@ -12,14 +13,14 @@ const Product = () => {
     const [pochette, setPochete] = useState({});
     const dispatch = useDispatch();
     const state = useSelector(state => state.cartList);
-    console.log("1 ", state)
+    const navigate = useNavigate();
+    console.log(state)
 
     const getData = async () => {
         const query = { _id: id }
         const project = { _id: 1, name: 1, ref: 1, detail: 1, img: 1, unitPrice: 1, description: 1, reviews: 1, bagSize: 1, category : 1 }
         const url = `/api/tea`
         const response = await axios.post(url, { query, project })
-        console.log("2 ", state)
         setProduct({
             idProduct: response.data.tea._id,
             ref: response.data.tea.ref,
@@ -30,34 +31,31 @@ const Product = () => {
             bagSize : response.data.tea.bagSize,
             quantity : 0,
             unitPrice : response.data.tea.unitPrice,
-            discount : 0,
-            notes : response.data.tea.notes,
-            img : response.data.tea.img,
-            idClient : state?.idClient,
+            discount : parseFloat(response.data.tea.bagSize[0].reducePrice),
+            notes : response.data.tea.reviews.map(r => r.notes),
+            image : response.data.tea.img,
         })
-        // setProduct(newProduct)
-        // console.log(newProduct)
-        // setProduct(response.data.tea)
     }
 
-    const handleValidate = (e) => {
-
+    const handleValidate = () => {
+        const myProduct = {...product, quantity : parseFloat(myRef.current.innerText), bagSize : product.bagSize.filter(p => p.reducePrice === product.discount)[0].size, idClient : state?.idClient || null};
+        delete myProduct.detail;
+        delete myProduct.description;
+        delete myProduct.notes;
+        
+        console.log(myProduct);
+        dispatch({type : "cart/addProduct", payload : myProduct});
+        navigate("/")
     }
 
     useEffect(() => {
         getData()
+       
     }, [])
 
-    const handleRating = (e) => {
-        // console.log(e)
-    }
-
-    const handleClick = (e) => {
-
-    }
 
     const handleSelect = (e) => {
-        
+        setProduct({...product, discount : parseFloat(e.target.value) })
     }
 
     const myRef = useRef(0)
@@ -67,6 +65,7 @@ const Product = () => {
         setCount(parseInt(myRef.current.innerText))
     }
 
+   
     return (
         <>
             <main className="container">
@@ -78,24 +77,24 @@ const Product = () => {
                             <p>Ref. {product.ref}</p>
                         </div>
                         <div className="rating">
-                            {/* <p>Note moyenne : {product?.reviews?.map(u => u.notes).reduce((a, b) => (a) + (b))}</p> */}
-                            <ProductRating handleChange={handleRating} /> Note : {product?.reviews?.map(u => u.notes).reduce((a, b) => (a) + (b))}
+                            <p>Note : {product?.notes?.reduce((a, b) => (a + b))}</p>
+                            <ProductRating value={product?.notes?.reduce((a, b) => (a + b))}/>
                             <NavLink to={`/product/${product.reviews}`}>Voir les avis clients</NavLink>
                         </div>
                     </section>
                     <section className="product-quantity">
-                        <img src={product.img} alt="thé en vrac" />
+                        <img src={product.image} alt="thé en vrac" />
                         <div className="price">
                             {product.bagSize && (
                                 <>
                                     <select className="quantity" onChange={handleSelect}>
-                                        {product?.bagSize.map((pochette, i) => <option value={pochette} key={i}>Pochette de {pochette.size} gr</option>)}
+                                        {product?.bagSize.map((pochette, i) => <option key={i} value={pochette.reducePrice}>Pochette de {pochette.size} gr</option>)}
                                     </select>
-                                    <h3>{parseInt(product.unitPrice) * myRef.current.innerText} €</h3>
+                                    
                                 </>
                             )}
-                            <ButtonProduct myRef={myRef} />
-                            <button onClick={showMe}>Show Me</button>
+                            <ButtonProduct myRef={myRef} unitPrice={product.unitPrice} discount={product.discount}/>
+                            {/* <button onClick={showMe}>Show Me</button> */}
 
                             <NavLink className="btn" onClick={(e) => handleValidate(e)}>Ajouter au panier</NavLink>
                             <NavLink className="wishlist" to="/whishlist">Ajouter à ma liste d'envie</NavLink>

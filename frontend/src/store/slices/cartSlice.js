@@ -24,10 +24,10 @@ export const cartSlice = createSlice({
                     //On sauvegarde la valeur dans le store
                     state.idClient = data.idClient || null
                     // On récupère le panier qu'il avait en cours
-                    let currentCart = data.cart.map(product => Object.assign({}, product, { idClient: data.currentClient }))
+                    let currentCart = data?.cart.map(product => Object.assign({}, product, { idClient: data?.currentClient }))
                     for (let i = 0; i < data.existingCart.length; i++) {
-                        if (data.existingCart[i].idClient.id === data.currentClient.id) {
-                            currentCart.push(data.existingCart.splice(i, 1)[0])
+                        if (data?.existingCart[i]?.idClient?.id === data?.currentClient?.id) {
+                            currentCart.push(data?.existingCart.splice(i, 1)[0])
                             i--
                         }
                     }
@@ -96,7 +96,6 @@ export const cartSlice = createSlice({
                 idClient: state.idClient !== null ? state.idClient : null,
             }
 
-
             state.cart.push(newProduct)
             state.count++
             state.totalPrice += newProduct.quantity * newProduct.unitPrice * (1 - newProduct.discount)
@@ -108,8 +107,14 @@ export const cartSlice = createSlice({
             state.count--
             state.totalPrice = state?.cart.map((product => product.quantity * product.unitPrice * (1 - product.discount))).reduce((a, b) => a + b, 0)
             localStorage.setItem(storage, JSON.stringify(state))
-        }
+        },
 
+        clearCart : (state, action) => {
+            state.cart = []
+            state.count = 0
+            state.totalPrice = 0
+            localStorage.setItem(storage, JSON.stringify(state))
+        }
     }
 });
 

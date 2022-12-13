@@ -4,17 +4,18 @@ import { useDispatch } from "react-redux"
 
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
-import Product from './components/Product'
-import Login from './components/Login'
-import Signup from './components/Signup'
-import Cart from "./components/Cart"
+import Product from './components/Product.jsx'
+import Login from './components/Login.jsx'
+import Signup from './components/Signup.jsx'
+import Cart from "./components/Cart.jsx"
+import Payment from './components/Payment.jsx'
 
-import Accessories from './views/Accessories'
-import About from './views/About'
-import Home from './views/Home'
-import Teas from "./views/Teas"
-import Grocery from "./views/Grocery"
-import GrandsCrus from "./views/GrandsCrus"
+import Accessories from './views/Accessories.jsx'
+import About from './views/About.jsx'
+import Home from './views/Home.jsx'
+import Teas from "./views/Teas.jsx"
+import Grocery from "./views/Grocery.jsx"
+import GrandsCrus from "./views/GrandsCrus.jsx"
 
 const App = () => {
     const dispatch = useDispatch()
@@ -41,6 +42,7 @@ const App = () => {
                         <Route path='/login' element={<Login />} />
                         <Route path='/signup' element={<Signup />} />
                         <Route path='/cart' element={<Cart />} />
+                        <Route path='/payment' element={<Payment />} />
                         <Route path='*' element={<Home />} />
                     </Routes>
                 </main>

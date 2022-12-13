@@ -6,7 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Field from './Field';
 import * as yup from "yup";
 import axios from "axios"
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+
 
 const schema = yup.object({
     firstname: yup
@@ -123,18 +124,46 @@ const Signup = () => {
 
     return (
         <>
-            <h2>Inscription</h2>
+            <Typography variant="h2" padding={3} textAlign="center">
+                Nouveau client ?
+            </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <h4>Information de connexion :</h4>
-                {fieldsGroupInfo.map((fields, k) => <Field fields={fields} register={register} errors={errors} handleChange={handleChange} />)}
-
-                <h4>Adresse :</h4>
-                {fieldsGroupAddress.map((fields, k) => <Field fields={fields} register={register} errors={errors} handleChange={handleChange} />)}
-
+                <Typography variant="h4" padding={3} textAlign="center">
+                    Informations de connexion :
+                </Typography>
+                {fieldsGroupInfo.map((fields, k) => (
+                    <Field key={k}
+                        fields={fields}
+                        register={register}
+                        errors={errors}
+                        handleChange={handleChange}
+                    />
+                ))}
+                <Typography variant="h4" padding={3} textAlign="center">
+                    Addresse :
+                </Typography>
+                {fieldsGroupAddress.map((fields, k) => (
+                    <Field key={k}
+                        fields={fields}
+                        register={register}
+                        errors={errors}
+                        handleChange={handleChange}
+                    />
+                ))}
             </form>
             <p>{errMessage}</p>
-            <Box m={1} display="flex" justifyContent={'center'} alignItems={'center'}>
-                <Button variant="contained" color="primary" sx={{ mr: 2, height: 40, width: 100 }} onClick={handleSubmit(onSubmit)} >
+            <Box
+                m={1}
+                display="flex"
+                justifyContent={'center'}
+                alignItems={'center'}
+            >
+                <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mr: 2, height: 40, width: 100 }}
+                    onClick={handleSubmit(onSubmit)}
+                >
                     S'inscrire
                 </Button>
             </Box>

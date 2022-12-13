@@ -28,7 +28,7 @@ const Header = () => {
                         <section className="cart">
                             <NavLink to="/cart" activeclassname="active" style={{ color: 'white' }}>
                                 <span>Mon panier</span>
-                                <strong>{state.totalPrice}</strong>
+                                <strong>{(state.totalPrice).toFixed(2)} € </strong>
                                 <p>{state.idClient?.firstname} {state.idClient?.lastname}</p>
                             </NavLink>
                         </section>

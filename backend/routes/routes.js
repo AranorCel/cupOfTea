@@ -51,6 +51,9 @@ router.route("/api/client")
     
 router.route("/api/createClient")
     .post(ClientPost);
+   
+router.route("/api/createOrder")
+    .post(OrderPost);
 
 router.route("/seller")
     .get(SellerGetById)

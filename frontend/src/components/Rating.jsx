@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
-import Typography from "@mui/material/Typography";
 
 const ProductRating = ({ notes, handleChange }) => {
 	//? Will be used for controlled rating
@@ -10,8 +9,7 @@ const ProductRating = ({ notes, handleChange }) => {
 	return (
 		<Box
 			sx={{ '& > legend': { mt: 2 } }}>
-			<Typography component="legend">Notes</Typography>
-			<Rating name="read-only" value={rating} readOnly onChange={(e) => handleChange(e)} />
+			<Rating name="read-only" value={notes} readOnly onChange={(e) => handleChange(e)} />
 		</Box>
 	);
 }
